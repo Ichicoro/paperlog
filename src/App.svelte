@@ -6,7 +6,6 @@
     text: string
     created_at: Date
   }
-  // console.log("App component loaded")
 
   let hostname = $state<string>()
   let wsConnection = $state(null as WebSocket | null)
