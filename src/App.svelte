@@ -193,7 +193,13 @@
         <div class="entry border-b border-gray-200 p-2">
           <div class="mb-1">
             <span class="bg-grey px-1 text-xs text-white"
-              >{new Date(message.created_at).toLocaleString()}</span
+              >{new Date(message.created_at)
+                .toLocaleString("en-GB", { weekday: "short" })
+                .toUpperCase()}
+              {new Date(message.created_at).toLocaleString("en-GB", {
+                dateStyle: "short",
+                timeStyle: "short"
+              })}</span
             >
           </div>
           <div class="text-grey/80 text-sm">
