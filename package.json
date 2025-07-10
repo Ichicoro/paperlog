@@ -1,28 +1,29 @@
 {
-	"name": "web",
+	"name": "paperlog",
 	"private": true,
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "bun --watch server.ts",
+		"dev:vite": "vite",
 		"server:dev": "bun --watch server.ts",
+		"start": "bun run server.ts",
 		"build": "vite build",
 		"preview": "vite preview",
-		"prepare": "svelte-kit sync || echo ''",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"check": "svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
 		"lint": "prettier --check . && eslint ."
 	},
 	"devDependencies": {
 		"@eslint/compat": "^1.2.5",
 		"@eslint/js": "^9.18.0",
-		"@sveltejs/adapter-auto": "^6.0.0",
-		"@sveltejs/kit": "^2.16.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.0",
 		"@tailwindcss/typography": "^0.5.15",
 		"@tailwindcss/vite": "^4.0.0",
 		"@types/node": "^24.0.12",
+		"@types/ws": "^8.18.1",
+		"concurrently": "^9.2.0",
 		"eslint": "^9.18.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-svelte": "^3.0.0",
@@ -39,7 +40,10 @@
 		"vite-plugin-singlefile": "^2.3.0"
 	},
 	"dependencies": {
+		"@fastify/cors": "^11.0.1",
+		"@fastify/vite": "^8.1.3",
+		"@fastify/websocket": "^11.1.0",
 		"@fontsource/space-mono": "^5.2.8",
-		"bun-serve-route-plus": "^1.0.2"
+		"fastify": "^5.4.0"
 	}
 }

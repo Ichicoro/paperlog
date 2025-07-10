@@ -1,6 +1,12 @@
 <script lang="ts">
   import { onMount } from "svelte"
-  import { type Entry } from "$lib"
+
+  interface Entry {
+    id: number
+    text: string
+    created_at: Date
+  }
+  // console.log("App component loaded")
 
   let hostname = $state<string>()
   let wsConnection = $state(null as WebSocket | null)
@@ -144,11 +150,9 @@
   })
 </script>
 
-<div>
-  <div class="sticky top-0 bg-white">
-    <div
-      class="header relative flex items-center justify-center bg-black/90 p-2 text-white backdrop-blur-lg"
-    >
+<div class="app-container">
+  <div class="sticky top-0 z-10 bg-white">
+    <div class="header bg-grey relative flex items-center justify-center p-2 text-white">
       <h1 class="text-xl">RECEIPT</h1>
       <div class="absolute top-0 right-4 flex h-full w-fit items-center justify-center">
         <span class="h-2 w-2 rounded {dotStyle}"></span>
@@ -188,11 +192,11 @@
       {#each messages as message (message.id)}
         <div class="entry border-b border-gray-200 p-2">
           <div class="mb-1">
-            <span class="bg-black/90 px-1 text-xs text-white"
+            <span class="bg-grey px-1 text-xs text-white"
               >{new Date(message.created_at).toLocaleString()}</span
             >
           </div>
-          <div class="text-sm text-gray-700">
+          <div class="text-grey/80 text-sm">
             {#each message.text.split("\n") as line, i}
               <p class="block" style="white-space: pre-wrap">
                 {#if line.length !== 0}{line}{:else}&nbsp;{/if}
@@ -210,6 +214,10 @@
 </div>
 
 <style>
+  @import "./app.css";
+  .app-container {
+    @apply mx-auto max-w-xl min-[578px]:border-x min-[578px]:border-gray-200;
+  }
   @media (hover: none) and (pointer: coarse) {
     .show-on-touch {
       display: block;

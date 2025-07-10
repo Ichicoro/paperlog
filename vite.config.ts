@@ -1,15 +1,23 @@
 import tailwindcss from '@tailwindcss/vite';
-import { sveltekit } from '@sveltejs/kit/vite';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { defineConfig } from 'vite';
-import { viteSingleFile } from 'vite-plugin-singlefile';
 
-export default defineConfig((command) => ({
+export default defineConfig(() => ({
 	plugins: [
 		tailwindcss(),
-		sveltekit(),
-		command.command === 'build' && viteSingleFile({ removeViteModuleLoader: true }),
+		svelte(),
 	],
-	build: { minify: true },
+	root: import.meta.dir,
+	fastify: {
+		clientModule: 'src/main.ts',
+		paths: {
+			root: import.meta.path,
+		}
+	},
+	build: {
+		minify: true,
+		outDir: 'dist'
+	},
 	server: {
 		allowedHosts: ['localhost', 'mba-zelda', 'mba-zelda.local'],
 	}
