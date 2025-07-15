@@ -4,6 +4,7 @@ import websocket from '@fastify/websocket';
 import vite from '@fastify/vite';
 import { Database } from 'bun:sqlite';
 import type { WebSocket } from 'ws';
+import { v4 as uuidv4 } from 'uuid';
 
 console.log("Hello via Bun with Fastify!");
 
@@ -36,16 +37,12 @@ try {
   console.log('Fastify server configured without Vite');
 }
 
+// Auto-migrate the database schema if needed
+import { autoMigrateDb } from './utils/updateDb';
+autoMigrateDb();
+
 // Initialize the SQLite database
 const db = new Database('data.db');
-// Create a table if it doesn't exist
-db.run(`
-CREATE TABLE IF NOT EXISTS entries (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  text TEXT NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-`)
 
 // Store WebSocket connections
 const wsConnections = new Set<WebSocket>();
@@ -53,8 +50,10 @@ const wsConnections = new Set<WebSocket>();
 const addEntry = (text: string) => {
   const created_at = new Date().getTime();
   // Insert the entry into the database
-  const changes = db.run('INSERT INTO entries (text, created_at) VALUES (?, ?)', [text, created_at]);
-  const id = changes.lastInsertRowid;
+
+  const id = uuidv4();
+
+  db.run('INSERT INTO entries (id, text, created_at) VALUES (?, ?, ?)', [id, text, created_at]);
   // Log the received data
   console.log('Entry added:', { id, text, created_at });
   // Broadcast to WebSocket clients

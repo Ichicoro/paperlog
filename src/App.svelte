@@ -2,7 +2,7 @@
   import { onMount } from "svelte"
 
   interface Entry {
-    id: number
+    id: string
     text: string
     created_at: Date
   }
@@ -191,15 +191,15 @@
       {#each messages as message (message.id)}
         <div class="entry border-b border-gray-200 p-2">
           <div class="mb-1">
-            <span class="bg-grey px-1 text-xs text-white"
-              >{new Date(message.created_at)
+            <span class="bg-grey px-1 text-xs text-white">
+              {new Date(message.created_at)
                 .toLocaleString("en-GB", { weekday: "short" })
                 .toUpperCase()}
               {new Date(message.created_at).toLocaleString("en-GB", {
                 dateStyle: "short",
                 timeStyle: "short"
-              })}</span
-            >
+              })}
+            </span>
           </div>
           <div class="text-grey/80 text-sm">
             {#each message.text.split("\n") as line, i}
