@@ -3,14 +3,6 @@ import { Database } from 'bun:sqlite';
 export const autoMigrateDb = () => {
   const db = new Database('data.db');
 
-  db.run(`
-CREATE TABLE IF NOT EXISTS entries (
-  id TEXT PRIMARY KEY,
-  text TEXT NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-`);
-
   const stmt = db.prepare("SELECT id FROM entries LIMIT 1");
   stmt.get();
   const type = stmt.declaredTypes[0];

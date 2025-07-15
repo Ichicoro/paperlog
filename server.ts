@@ -37,12 +37,21 @@ try {
   console.log('Fastify server configured without Vite');
 }
 
-// Auto-migrate the database schema if needed
-import { autoMigrateDb } from './utils/updateDb';
-autoMigrateDb();
-
 // Initialize the SQLite database
 const db = new Database('data.db');
+db.run(`
+CREATE TABLE IF NOT EXISTS entries (
+  id TEXT PRIMARY KEY,
+  text TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+`);
+
+
+// BROKEN!! Don't use this yet
+// // Auto-migrate the database schema if needed
+// import { autoMigrateDb } from './utils/updateDb';
+// autoMigrateDb();
 
 // Store WebSocket connections
 const wsConnections = new Set<WebSocket>();
