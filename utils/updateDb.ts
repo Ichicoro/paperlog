@@ -26,7 +26,7 @@ CREATE TABLE entries (
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 INSERT INTO entries (id, text, created_at)
-SELECT UUID(), text, created_at FROM old_entries;
+SELECT uuid(), text, created_at FROM old_entries;
 DROP TABLE old_entries;
 `);
   } else {
